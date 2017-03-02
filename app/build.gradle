@@ -28,3 +28,27 @@ dependencies {
     compile 'com.android.support:design:25.1.1'
     testCompile 'junit:junit:4.12'
 }
+
+android.testOptions.unitTests.all {
+        // Configure whether failing tests should fail the build
+        ignoreFailures false
+
+        beforeSuite { descriptor ->
+            logger.lifecycle("Buddybuild Starting Test Suite: " + descriptor)
+        }
+
+        afterSuite { desc, result ->
+            println "Buddybuild Finished Test Suite: " + desc
+        }
+
+        beforeTest { descriptor ->
+            logger.lifecycle("Buddybuild Starting Test: " + descriptor.name)
+        }
+
+        afterTest { desc, result ->
+            println "Buddybuild Finished Test: ${desc.name}  - [${(result.endTime - result.startTime)/1000}s] - ${result.resultType}"
+        }
+
+//        testLogging {events "PASSED", "STARTED", "FAILED", "SKIPPED"}
+
+}
